@@ -14,7 +14,7 @@ class BaseModel:
         tform = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid4())
         self.created_at = datetime.now()
-        self.updated_at = self.created_at.now()
+        self.updated_at = self.created_at
 
     def __str__(self):
         """Should print: [<class name>] (<self.id>) <self.__dict__>"""
