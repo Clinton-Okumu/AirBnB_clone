@@ -2,10 +2,18 @@
 """Defines the HBnB console"""
 import cmd
 from models.base_model import BaseModel
-from models import storage
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb)'
+
+    __build_class__ = {
+        "BaseModel"
+        "State"
+        "Place"
+        "Amenity"
+        "Review"
+        "City"
+    }
     
     def quit_program(self, arg):
         """quits the program"""
@@ -13,6 +21,7 @@ class HBNBCommand(cmd.Cmd):
     
     def do_EOF(self, arg):
         """quit command to exit the program"""
+        print("")
         return True
     
     def empty_line(self):
@@ -24,7 +33,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing**")
             return
         try:
-            instance_new = models.classes[arg]()
+            instance_new = BaseModel.classes[arg]()
             instance_new.save()
             print(instance_new.id)
         except:
@@ -36,15 +45,15 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        if args[0] not in models.classes:
+        if args[0] not in BaseModel.classes:
             print(" ** class doesn't exist ** ")
             return
         if len(args) < 2:
             print("** instance id is missing **")
             return
         key = args[0] + "." + args[1]
-        if key in models.storage.all():
-            print(models.storage.all()[key])
+        if key in BaseModel.storage.all():
+            print(BaseModel.storage.all()[key])
         else:
             print("** no instance found **")
         
@@ -54,16 +63,16 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        if args[0] not in models.classes:
+        if args[0] not in BaseModel.classes:
             print("** class doesn't exist **")
             return
         if len(args) < 2:
             print("** instance id missing **")
             return
         key = args[0] + "." + args[1]
-        if key in models.storage.all():
-            del models.storage.all()[key]
-            models.storage.save()
+        if key in BaseModel.storage.all():
+            del BaseModel.storage.all()[key]
+            BaseModel.storage.save()
         else:
             print("** no instance found **")
     
@@ -72,14 +81,14 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         obj_list = []
         if not arg:
-            for obj in models.storage.all().values():
+            for obj in BaseModel.storage.all().values():
                 obj_list.append(str(obj))
             print(obj_list)
             return
-        if args[0] not in models.classes:
+        if args[0] not in BaseModel.classes:
             print("** class doesn't exist **")
             return
-        for key, obj in models.storage.all().items():
+        for key, obj in BaseModel.storage.all().items():
             if key.split('.')[0] == args[0]:
                 obj_list.append(str(obj))
         print(obj_list)
@@ -90,14 +99,14 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        if args[0] not in models.classes:
+        if args[0] not in BaseModel.classes:
             print("** class doesn't exist **")
             return
         if len(args) < 2:
             print("** instance id missing **")
             return
         key = args[0] + "." + args[1]
-        if key not in models.storage.all():
+        if key not in BaseModel.storage.all():
             print("** no instance found **")
             return
         if len(args) < 3:
@@ -106,8 +115,8 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 4:
             print("** value missing **")
             return
-        setattr(models.storage.all()[key], args[2], args[3])
-        models.storage.save()
+        setattr(BaseModel.storage.all()[key], args[2], args[3])
+        BaseModel.storage.save()
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
