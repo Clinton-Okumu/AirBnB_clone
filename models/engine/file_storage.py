@@ -29,7 +29,7 @@ class FileStorage:
 
     def save(self):
         """ method adds a new object to the __objects dictionary"""
-        objects_dict = {key: object.to_dict() for key in FileStorage.__objects.items()}
+        objects_dict = {key: obj.to_dict() for key, obj in FileStorage.__objects.items()}
         with open(FileStorage.__file_path, "w") as f:
             json.dump(objects_dict, f)
     
@@ -39,8 +39,10 @@ class FileStorage:
             with open(FileStorage.__file_path) as f:
                 objects_dict = json.load(f)
                 for key, obj_dict in objects_dict.items():
-                    class_name, obj_id = key.split(',')
+                    class_name, _ = key.split('.')
                     self.__objects[key] = eval(class_name)(**obj_dict)
+                    if class_name == "User":
+                        self.__objects[key] = User(**obj_dict)
         except FileNotFoundError:
             pass
     

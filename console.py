@@ -2,6 +2,8 @@
 """Defines the HBnB console"""
 import cmd
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
+from models.user import User
 
 class HBNBCommand(cmd.Cmd):
     prompt = '(hbnb)'
@@ -14,6 +16,9 @@ class HBNBCommand(cmd.Cmd):
         "Review"
         "City"
     }
+    def __init__(self):
+        self.storage = FileStorage()
+        self.storage.reload()
     
     def quit_program(self, arg):
         """quits the program"""
@@ -29,6 +34,9 @@ class HBNBCommand(cmd.Cmd):
     
     def create(self, arg):
         "Creates a new instance of Basemodel and saves it to JSON"""
+        # user = User(**kwargs)
+        # self.storage.new(user)
+        # self.storage.save()
         if not arg:
             print("** class name missing**")
             return
