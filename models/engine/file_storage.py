@@ -2,14 +2,10 @@
 
 import json
 from models.base_model import BaseModel
-from models.place import Place
-from models.city import City
-from models.state import State
-from models.amenity import Amenity
-from models.review import Review
 from models.user import User
 
-
+storage = FileStorage()
+storage.reload()
 
 
 class FileStorage:
@@ -43,8 +39,21 @@ class FileStorage:
                     self.__objects[key] = eval(class_name)(**obj_dict)
                     if class_name == "User":
                         self.__objects[key] = User(**obj_dict)
-                    else:
-                        self.__objects[key] = BaseModel(**obj_dict)
+                    elif class_name == "State":
+                        from models.state import State
+                        self.__objects[key] = State(**obj_dict)
+                    elif class_name == "City":
+                        from models.city import City
+                        self.__objects[key] = City(**obj_dict)
+                    elif class_name == "Amenity":
+                        from models.amenity import Amenity
+                        self.__objects[key] = Amenity(**obj_dict)
+                    elif class_name == "Place":
+                        from models.place import Place
+                        self.__objects[key] = Place(**obj_dict)
+                    elif class_name == "Review":
+                        from models.review import Review
+                        self.__objects[key] = Review(**obj_dict)
         except FileNotFoundError:
             pass
     

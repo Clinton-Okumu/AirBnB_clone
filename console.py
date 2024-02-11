@@ -2,6 +2,13 @@
 
 import cmd
 from models.engine.file_storage import storage
+from models.base_model import BaseModel
+from models.user import User
+from models.place import Place
+from models.city import City
+from models.state import State
+from models.amenity import Amenity
+from models.review import Review
 from models.user import User
 
 class HBNBCommand(cmd.Cmd):
@@ -36,8 +43,19 @@ class HBNBCommand(cmd.Cmd):
         try:
             if arg_list[0] == "User":
                 new_instance = User()
+            elif arg_list[0] == "State":
+                new_instance = State()
+            elif arg_list[0] == "City":
+                new_instance = City()
+            elif arg_list[0] == "Amenity":
+                new_instance = Amenity()
+            elif arg_list[0] == "Place":
+                new_instance = Place()
+            elif arg_list[0] == "Review":
+                new_instance = Review()
             else:
-                new_instance = eval(arg_list[0])()
+                print("** class doesn't exist **")
+                return
             new_instance.save()
             print(new_instance.id)
         except NameError:
@@ -50,7 +68,7 @@ class HBNBCommand(cmd.Cmd):
             return
         arg_list = arg.split()
         try:
-            if arg_list[0] not in storage.classes():
+            if arg_list[0] not in ["User", "State", "City", "Amenity", "Place", "Review"]:
                 print("** class doesn't exist **")
                 return
             if len(arg_list) < 2:
