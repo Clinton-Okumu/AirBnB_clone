@@ -13,6 +13,7 @@ from models.user import User
 storage = FileStorage()
 storage.reload()
 
+
 class HBNBCommand(cmd.Cmd):
     """Command interpreter for the HBNB console"""
     prompt = "(hbnb) "
@@ -70,7 +71,11 @@ class HBNBCommand(cmd.Cmd):
             return
         arg_list = arg.split()
         try:
-            if arg_list[0] not in ["User", "State", "City", "Amenity", "Place", "Review"]:
+            if arg_list[0] not in [
+                "User", "State", "City",
+                "Amenity", "Place", "Review"
+            ]:
+
                 print("** class doesn't exist **")
                 return
             if len(arg_list) < 2:
@@ -142,6 +147,7 @@ class HBNBCommand(cmd.Cmd):
             storage.save()
         except KeyError:
             print("** no instance found **")
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
